@@ -27,12 +27,12 @@ window.tracer(0)
 # Section 2: Setup
 # create your player character
 s1 = create_sprite("applecore",0,0)
-# TODO - set your background
-set_background("bluesky")
-# TODO - set the starting value for your variable
+# set background
+set_background("skyyy7777")
+# set the starting value for variable
 points = 0
 # Section 3: Controls
-# TODO - define your controls
+# define controls
 def move_up():
 	s1.setheading(90)
 	s1.forward(10)
@@ -40,29 +40,52 @@ def move_up():
 def move_down():
 	s1.setheading(270)
 	s1.forward(10)
-# TODO - pick keys for each control
+
+# pick keys for each control
 window.onkeypress(move_up, "w")
 window.onkeypress(move_down, "s")
 
 # Section 4: Game Loop
 window.listen()
 timer = 0
+obstacles = []
+lives = 3
 while True:
 	time.sleep(0.1)
-	timer += 1  
+	timer += 1 
+	s1.goto(s1.xcor(), s1.ycor()-10)
+	if timer % 50 == 0:
+		y_position = random.randint (-250, 250)
+		s2 = create_sprite ("woworm (1)",300,y_position)
+		s2.setheading(180)
+		obstacles.append(s2)
+	for s2 in obstacles:
+		s2.forward(10)
+		if get_distance(s1,s2) < 50:
+			lives -= 1
+			s1.hideturtle()
 	 
     
- 	# TODO - code for automatic actions
+ 	# code for automatic actions
+	if s1.ycor() > 250: 
+		break 
 
-
-
+	if lives == 0:
+		break
+	
+	if s1.ycor() < -160:
+		break 
 
 
 
 	window.update()
 
 	# if :
-	# 	break
+	#	break
 	
 
-print("Game Over")
+print ("Game Over!")
+s3 = turtle.Turtle()
+s3.write("Game Over!",font = ("Arial", 40, "normal"))
+window.update()
+time.sleep(2)
